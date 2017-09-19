@@ -1,0 +1,12 @@
+version: '3'
+services:
+  doca:
+    build:
+      context: .
+    restart: always
+    ports:
+      - "8000"
+      - "8080:8080"
+    volumes:
+      - ./schema:/usr/src/app/schema
+
