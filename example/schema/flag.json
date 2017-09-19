@@ -1,0 +1,183 @@
+{
+  "id": "/flag",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Flag",
+  "description": "An individual Flag.",
+  "type": "object",
+  "definitions": {
+    "identifier": {
+      "$ref": "./types.json#/definitions/uuid",
+      "description": "Flag's UUID",
+      "example": "6d55dc67-8cf8-4ab6-8ac5-0c8da1eff33b"
+    },
+    "created_at": {
+      "$ref": "./types.json#/definitions/timestamp",
+      "description": "The time at which the Flag was created"
+    },
+    "updated_at": {
+      "$ref": "./types.json#/definitions/timestamp",
+      "description": "The time at which the Flag was last updated"
+    },
+    "description": {
+      "type": "string",
+      "description": "The description for the Flag.",
+      "example": "Some coffee beans.",
+      "maxLength": 255
+    },
+    "name": {
+      "type": "string",
+      "description": "The name for this Flag",
+      "example": "Duplicate Orders",
+      "maxLength": 255
+    },
+    "key": {
+      "type": "string",
+      "description": "The key for this Flag",
+      "example": "supplier.duplicate_orders",
+      "maxLength": 255
+    },
+    "rules": {
+      "type": "array",
+      "description": "The rules associated with this flag",
+      "items": {
+        "$ref": "./rule.json"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "description",
+    "name",
+    "key"
+  ],
+  "properties": {
+    "id": {"$ref": "#/definitions/identifier"},
+    "created_at": {"$ref": "#/definitions/created_at"},
+    "updated_at": {"$ref": "#/definitions/updated_at"},
+    "key": {"$ref": "#/definitions/key"},
+    "rules": {"$ref": "#/definitions/rules"},
+    "description": {"$ref": "#/definitions/description"},
+    "name": {"$ref": "#/definitions/name"}
+  },
+  "links": [
+    {
+      "title": "All Flags",
+      "description": "Get all Flags in the system",
+      "rel": "instances",
+      "href": "/flags",
+      "method": "GET",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "string",
+            "description": "Current page of Flags",
+            "example": "1",
+            "default": "1"
+          },
+          "per_page": {
+            "type": "string",
+            "description": "How many Flags to retrieve at once",
+            "default": "20"
+          },
+          "sort": {
+            "enum": ["id", "created_at", "updated_at"],
+            "description": "Attribute to sort the results by",
+            "example": "id"
+          },
+          "created_since": {
+            "type": "string",
+            "description": "A date-time that describes the backstop for time we're interested in",
+            "example": "2016-12-01T05:44:59.223Z"
+          },
+          "updated_since": {
+            "type": "string",
+            "description": "A date-time that describes the backstop for time we're interested in",
+            "example": "2016-12-01T05:44:59.223Z"
+          },
+          "created_before": {
+            "type": "string",
+            "description": "A date-time that describes the forestop for time we're interested in",
+            "example": "2016-12-01T05:44:59.223Z"
+          },
+          "updated_before": {
+            "type": "string",
+            "description": "A date-time that describes the forestop for time we're interested in",
+            "example": "2016-12-01T05:44:59.223Z"
+          }
+        }
+      },
+      "targetSchema": {
+        "type": "object",
+        "properties": {
+          "flags": {
+            "type": "array",
+            "items": {"rel": "self"}
+          }
+        }
+      }
+    },{
+      "title": "Flag info",
+      "description": "Get a single Flag",
+      "rel": "self",
+      "href": "/flags/{#/definitions/identifier}",
+      "expressRoute": "/flags/:id",
+      "method": "GET",
+      "targetSchema": {"rel": "self"}
+    },{
+      "title": "Create Flag",
+      "description": "Create a new Flag",
+      "rel": "self",
+      "href": "/flags",
+      "method": "POST",
+      "targetSchema": {"rel": "self"},
+      "schema": {
+        "type": "object",
+        "required": [
+          "description",
+          "name",
+          "key"
+        ],
+        "properties": {
+          "id": {"$ref": "#/definitions/identifier"},
+          "key": {"$ref": "#/definitions/key"},
+          "rules": {"$ref": "#/definitions/rules"},
+          "description": {"$ref": "#/definitions/description"},
+          "name": {"$ref": "#/definitions/name"}
+        }
+      }
+    },{
+      "title": "Update Flag",
+      "description": "Update an existing Flag",
+      "rel": "self",
+      "href": "/flags/{#/definitions/identifier}",
+      "expressRoute": "/flags/:id",
+      "method": "PUT",
+      "targetSchema": {"rel": "self"},
+      "schema": {
+        "type": "object",
+        "required": [
+          "id",
+          "description",
+          "name",
+          "key"
+        ],
+        "properties": {
+          "id": {"$ref": "#/definitions/identifier"},
+          "key": {"$ref": "#/definitions/key"},
+          "rules": {"$ref": "#/definitions/rules"},
+          "description": {"$ref": "#/definitions/description"},
+          "name": {"$ref": "#/definitions/name"}
+        }
+      }
+    },{
+      "title": "Delete a Flag",
+      "description": "Delete an existing Flag",
+      "rel": "self",
+      "href": "/flags/{#/definitions/identifier}",
+      "expressRoute": "/flags/:id",
+      "method": "DELETE",
+      "targetSchema": {"rel": "self"}
+    }
+  ]
+}

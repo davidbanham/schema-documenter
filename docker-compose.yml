@@ -8,5 +8,5 @@ services:
       - "8000"
       - "8080:8080"
     volumes:
-      - ./schema:/usr/src/app/schema
+      - ./example/schema:/usr/src/app/schema
 

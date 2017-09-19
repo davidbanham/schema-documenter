@@ -1,0 +1,11 @@
+version: '3'
+services:
+  doca:
+    image: davidbanham/schema-documenter
+    restart: always
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    volumes:
+      - ./schema:/usr/src/app/schema
+
